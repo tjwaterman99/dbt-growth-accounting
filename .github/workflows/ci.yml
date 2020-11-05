@@ -38,3 +38,5 @@ jobs:
               run: pip install -r requirements.txt
             - name: Log environmnet
               run: env
+            - name: Load dummy date
+              run: ./load_data.sh
