@@ -22,10 +22,10 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 vars:
     growth_accounting:
-        table: 1
-        object_type: 2
-        object_id_field: 3
-        timestamp_field: 4
+        tablename: "{{ source('dummy_data', 'growth_accounting_users') }}"
+        object_type: 'user'
+        object_id_field: 'user_id'
+        timestamp_field: 'event_date'
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
