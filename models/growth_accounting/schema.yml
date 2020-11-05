@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+    - name: dummy_data
+      schema: raw
+      tables:
+        - name: growth_accounting_users
+          description: Dummy data to build the project
+          columns:
+            - name: user_id
+            - name: event_date
+
+models:
+    - name: growth_accounting_events__stg
+      description: A view that collects all events to include in the "growth accounting" tables.
