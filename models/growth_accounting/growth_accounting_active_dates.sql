@@ -6,7 +6,7 @@ with active_days as (
     select 
         object_type,
         object_id,
-        active_at,  -- this is cast to a 'date' type
+        active_at,  -- note this is cast to a 'date' type
         count(1) as events
     from {{ ref('growth_accounting_events__stg') }}
     group by 1,2,3
