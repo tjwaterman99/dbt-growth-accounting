@@ -1,6 +1,9 @@
 # Data files
 events.csv.gz
 
+# Codespace installs these because of the requirements.txt
+pythonenv3.8
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
