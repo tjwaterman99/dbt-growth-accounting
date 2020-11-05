@@ -3,9 +3,29 @@ name: CI
 on: push
 jobs:
     build:
+        env:
+            PGDATABASE: dev
+            PGUSER: dev
+            PGPASSWORD: dev
+            PGPORT: 5432
+            PGHOST: localhost
+        services:
+            postgres:
+                image: postgres:11
+                env:
+                    POSTGRES_PASSWORD: dev
+                    POSTGRES_USER: dev
+                    POSTGRES_DATABASE: dev
+                ports:
+                    - 5432:5432
+                options: >-
+                    --health-cmd pg_isready
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
         strategy:
             matrix:
-                python-version: [3.6, 3.7, 3.8]
+                python-version: [3.8]
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
@@ -16,3 +36,5 @@ jobs:
                 python-version: ${{ matrix.python-version }}
             - name: Install requirements
               run: pip install -r requirements.txt
+            - name: Log environmnet
+              run: env
