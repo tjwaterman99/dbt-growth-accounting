@@ -40,3 +40,9 @@ jobs:
               run: env
             - name: Load dummy date
               run: ./load_data.sh
+            - name: Build dbt models
+              run: dbt run --profiles-dir .dbt
+            - name: Test dbt models
+              run: dbt test --profiles-dir .dbt
+            - name: Build dbt docs
+              run: dbt docs generate --profiles-dir .dbt
