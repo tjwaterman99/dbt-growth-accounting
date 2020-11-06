@@ -25,7 +25,8 @@ vars:
         tablename: "{{ source('dummy_data', 'growth_accounting_users') }}"
         object_type: 'user'
         object_id_field: 'user_id'
-        timestamp_field: 'event_date'
+        event_type: 'login'
+        event_timestamp_field: 'login_at'
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models

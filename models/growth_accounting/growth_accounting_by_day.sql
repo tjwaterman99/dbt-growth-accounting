@@ -1,0 +1,3 @@
+-- If the previous day is null, then they're new
+-- If it's <= 1, then retained
+-- If it's > 1, then returned
