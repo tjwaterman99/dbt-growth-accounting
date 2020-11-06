@@ -16,7 +16,7 @@ with cohorts as (
         count(distinct(active_at_quarter::varchar || '-' || active_at_year::varchar)) as num_active_quarters,
         count(distinct(active_at_year)) as num_active_years,
         sum(events) as lifetime_events
-    from {{ ref('growth_accounting_active_dates') }}
+    from {{ ref('growth_accounting_by_day') }}
     group by 1, 2, 3
 )
 
