@@ -6,6 +6,7 @@
 with cohorts as (
     select
         object_type,
+        event_type,
         object_id,
         max(active_at) as last_active_at,
         min(active_at) as first_active_at,
@@ -16,7 +17,7 @@ with cohorts as (
         count(distinct(active_at_year)) as num_active_years,
         sum(events) as lifetime_events
     from {{ ref('growth_accounting_active_dates') }}
-    group by 1, 2
+    group by 1, 2, 3
 )
 
 select
