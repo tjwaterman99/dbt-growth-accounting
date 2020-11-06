@@ -13,3 +13,20 @@ sources:
 models:
     - name: growth_accounting_events__stg
       description: A view that collects all events to include in the "growth accounting" tables.
+      columns:
+        - name: object_type
+          description: "Common object types include 'user', 'account', and 'visitor'. Objects are the type of person you want to track."
+          tests:
+            - not_null
+        - name: event_type
+          description: "Common event types include 'page view', 'login'. Event types track the repeatable action that the object_type can create."
+          tests:
+            - not_null
+        - name: object_id
+          descriptoin: The unique identifier for the object_type - the user_id if it's a user, the account_id if it's an account, etc."
+          tests:
+            - not_null
+        - name: active_at
+          description: The date at which the event occured. For example, the date the user logged in, or the date the visitor viewed a page."
+          tests:
+            - not_null
