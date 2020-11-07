@@ -10,7 +10,7 @@ with monthly_rollup as (
         active_at_month,
         active_at_year,
         sum(events) as events
-    from {{ ref('growth_accounting_daily_activity') }}
+    from {{ ref('growth_accounting_daily_activity__stg') }}
     group by 1,2,3,4,5
 ),
     
@@ -25,9 +25,8 @@ monthly_rollup_enhanced as (
 )
 
 select
-    *
-    -- active_at - lag(active_at) over (partition by object_type, event_type, object_id order by active_at asc) as days_since_last_active,
-    -- case when lag(active_at) over (partition by object_type, event_type, object_id order by active_at asc) is null then true else false end as is_new,
-    -- case when active_at - lag(active_at) over (partition by object_type, event_type, object_id order by active_at asc) <= 1 then true else false end as is_retained,
-    -- case when active_at - lag(active_at) over (partition by object_type, event_type, object_id order by active_at asc) > 1 then true else false end as is_returned
+    *,
+    case when months_since_last_active is null then true else false end as is_new,
+    case when months_since_last_active = 1 then true else false end as is_retained,
+    case when months_since_last_active > 1 then true else false end as is_returned
 from monthly_rollup_enhanced
