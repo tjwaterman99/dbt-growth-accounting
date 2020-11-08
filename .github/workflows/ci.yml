@@ -40,6 +40,8 @@ jobs:
               run: env
             - name: Load dummy date
               run: ./load_data.sh
+            - name: Install DBT packages
+              run: dbt deps --profiles-dir .dbt
             - name: Build dbt models
               run: dbt run --profiles-dir .dbt
             - name: Test dbt models
