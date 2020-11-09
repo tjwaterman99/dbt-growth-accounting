@@ -23,16 +23,16 @@ eligible_dates as (
 eligible_dates_enhanced as (
     select
         eligible_dates.*,
-        case when growth_accounting_activity_by_day.active_at is null then false else true end as is_active,
+        case when daily_activity.active_at is null then false else true end as is_active,
         -- Ideally we could just do `lag(active_at) ignore_nulls (partition by ...)` to get the last
         -- active date
-        active_at
+        daily_activity.active_at
     from eligible_dates
-    left join growth_accounting_activity_by_day
-    on eligible_dates.date = growth_accounting_activity_by_day.active_at
-        and eligible_dates.object_id = growth_accounting_activity_by_day.object_id
-        and eligible_dates.event_type = growth_accounting_activity_by_day.event_type
-        and eligible_dates.object_type = growth_accounting_activity_by_day.object_type
+    left join {{ ref('growth_accounting_daily_activity__stg') }} daily_activity
+    on eligible_dates.date = daily_activity.active_at
+        and eligible_dates.object_id = daily_activity.object_id
+        and eligible_dates.event_type = daily_activity.event_type
+        and eligible_dates.object_type = daily_activity.object_type
 ),
 
 -- We only need to create this window manually on Postgres. Bigquery, Redshift, Snowflake
@@ -47,17 +47,25 @@ eligible_dates_with_active_at_window as (
                                 order by eligible_dates_enhanced.date asc
                                 rows between unbounded preceding and current row) as active_at_window
     from eligible_dates_enhanced
+),
+
+activity_by_day as (
+    select
+        date,
+        object_id,
+        object_type,
+        event_type,
+        first_active_at,
+        first_value(active_at) over (partition by ew.object_id,
+                                                ew.event_type,
+                                                ew.object_type,
+                                                ew.active_at_window) as last_active_at,
+        is_active,
+        first_active_at = date as is_first_active
+    from eligible_dates_with_active_at_window ew
 )
 
 select
-    date,
-    object_id,
-    object_type,
-    event_type,
-    is_active,
-    first_active_at,
-    first_value(active_at) over (partition by ew.object_id,
-                                              ew.event_type,
-                                              ew.object_type,
-                                              ew.active_at_window) as last_active_at
-from eligible_dates_with_active_at_window ew                                          
+    activity_by_day.*,
+    "date" - last_active_at as days_since_last_active
+from activity_by_day
