@@ -4,6 +4,20 @@ DBT Package for calculating "growth accounting" metrics.
 
 ## Development
 
+Start a Postgres database.
+
+```
+docker run \
+    --publish 5432:5432 \
+     -e POSTGRES_PASSWORD=dev \
+     -e POSTGRES_USER=dev \
+     -e POSTGRES_DATABASE=dev \
+     --name postgres \
+     --restart unless-stopped \
+     --detach \
+     postgres:12
+```
+
 Install the project requirements.
 
 ```
