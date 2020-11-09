@@ -11,7 +11,7 @@ with cohorts as (
         max(active_at) as last_active_at,
         min(active_at) as first_active_at,
         count(1) as num_active_days,
-        count(distinct(active_at_week_of_year::varchar || '-' || active_at_year::varchar)) as num_active_weeks,
+        count(distinct(active_at_week::varchar || '-' || active_at_year::varchar)) as num_active_weeks,
         count(distinct(active_at_month::varchar || '-' || active_at_year::varchar)) as num_active_months,
         count(distinct(active_at_quarter::varchar || '-' || active_at_year::varchar)) as num_active_quarters,
         count(distinct(active_at_year)) as num_active_years,
