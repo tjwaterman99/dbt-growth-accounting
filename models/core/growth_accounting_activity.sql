@@ -22,7 +22,7 @@ active_days_enhanced as (
         extract('doy' from active_at)::integer as active_at_day_of_year,
         extract('dow' from active_at)::integer as active_at_day_of_week,
         extract('quarter' from active_at)::integer as active_at_quarter,
-        extract('week' from active_at)::integer as active_at_week_of_year
+        extract('week' from active_at)::integer as active_at_week
     from active_days
 )
 

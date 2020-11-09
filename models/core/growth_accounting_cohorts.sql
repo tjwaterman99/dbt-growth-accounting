@@ -22,8 +22,15 @@ with cohorts as (
 
 select
     *,
-    last_active_at - first_active_at as lifetime_age_in_days,
-    (last_active_at - first_active_at) / 7 as lifetime_age_in_weeks,
-    (last_active_at - first_active_at) / 30 as lifetime_age_in_months,
-    (last_active_at - first_active_at) / 365 as lifetime_age_in_years
+    extract('day' from first_active_at)::integer as first_active_at_day,
+    extract('month' from first_active_at)::integer as first_active_at_month,
+    extract('year' from first_active_at)::integer as first_active_at_year,
+    extract('doy' from first_active_at)::integer as first_active_at_day_of_year,
+    extract('dow' from first_active_at)::integer as first_active_at_day_of_week,
+    extract('quarter' from first_active_at)::integer as first_active_at_quarter,
+    extract('week' from first_active_at)::integer as first_active_at_week
+    -- last_active_at - first_active_at as lifetime_age_in_days,
+    -- (last_active_at - first_active_at) / 7 as lifetime_age_in_weeks,
+    -- (last_active_at - first_active_at) / 30 as lifetime_age_in_months,
+    -- (last_active_at - first_active_at) / 365 as lifetime_age_in_years
 from cohorts
