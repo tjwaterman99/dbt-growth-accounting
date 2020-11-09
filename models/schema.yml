@@ -11,8 +11,8 @@ sources:
             - name: event_date
 
 models:
-    - name: growth_accounting_events__stg
-      description: A view that collects all events to include in the "growth accounting" tables.
+    - name: growth_accounting_events
+      description: A view that collects all events relevant for the "growth accounting" tables.
       columns:
         - name: object_type
           description: "Common object types include 'user', 'account', and 'visitor'. Objects are the type of person you want to track."
@@ -30,3 +30,9 @@ models:
           description: The date at which the event occured. For example, the date the user logged in, or the date the visitor viewed a page."
           tests:
             - not_null
+    - name: growth_accounting_activity
+      description: A daily aggregate of the activity from the "growth_accounting_events" table.
+      columns: []
+    - name: growth_accounting_cohorts
+      description: A summary of all object_types and event_types from the "growth_accounting_events" view
+      columns: []

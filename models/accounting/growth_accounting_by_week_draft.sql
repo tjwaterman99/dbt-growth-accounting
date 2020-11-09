@@ -10,7 +10,7 @@ with weekly_rollup as (
         active_at_week_of_year,
         active_at_year,
         sum(events) as events
-    from {{ ref('growth_accounting_daily_activity__stg') }}
+    from {{ ref('growth_accounting_activity') }}
     group by 1,2,3,4,5
 ),
     

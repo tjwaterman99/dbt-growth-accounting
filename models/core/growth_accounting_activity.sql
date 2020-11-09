@@ -9,7 +9,7 @@ with active_days as (
         object_id,
         active_at,  -- note this is cast to a 'date' type
         count(1) as events
-    from {{ ref('growth_accounting_events__stg') }}
+    from {{ ref('growth_accounting_events') }}
     group by 1,2,3,4
 ),
 
