@@ -2,6 +2,8 @@
 
 DBT Package for calculating "growth accounting" metrics.
 
+Documentation for each of the models is available on [a DBT docs site](https://tjwaterman99.github.io/dbt-growth-accounting).
+
 ## Development
 
 Start a Postgres database.
