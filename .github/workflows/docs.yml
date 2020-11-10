@@ -39,6 +39,8 @@ jobs:
         run: pip install -r requirements.txt
       - name: Install dbt deps
         run: dbt deps
+      - name: Load dummy data
+        run: ./load_data.sh
       - name: Build
         run: dbt docs generate --profiles-dir .dbt 
       - name: Deploy 🚀
