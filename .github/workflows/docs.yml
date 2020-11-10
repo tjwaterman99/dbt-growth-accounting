@@ -13,6 +13,10 @@ jobs:
           persist-credentials: false
       - name: Install
         run: pip install -r requirements
+      - uses: actions/setup-python@v2
+        name: Set up Python
+        with:
+          python-version: 3.8
       - name: Build
         run: dbt docs generate --profiles-dir .dbt 
       - name: Deploy 🚀
